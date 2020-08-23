@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+
+    <meta charset="utf-8">
+
+    <title>{% block title %} AliyunWeb{% endblock %}</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'plugins/fontawesome-free/css/all.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'plugins/sb-admin-2/css/sb-admin-2.css' %}" rel="stylesheet">
+    {#    <link href="{% static 'css/bootstrap4/bootstrap.min.css' %}" rel="stylesheet">#}
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'js/jquery-3.3.1.js' %}"></script>
+    <script src="{% static 'js/bootstrap4/bootstrap.bundle.min.js' %}"></script>
+
+
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'plugins/sb-admin-2/js/sb-admin-2.js' %}"></script>
+
+
+    {#    <link rel="stylesheet" href="{% static 'plugins/sweetalert/css/sweetalert.css' %}">#}
+    {#    <script src="{% static 'plugins/sweetalert/js/sweetalert.min.js' %}"></script>#}
+
+    <link rel="stylesheet" href="{% static 'plugins/toastr/css/toastr.min.css' %}">
+    <script src="{% static "plugins/toastr/js/toastr.min.js" %}"></script>
+
+    <script src="{% static 'plugins/sweetalert2/js/sweetalert2.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'plugins/sweetalert2/css/sweetalert2.css' %}">
+
+    <link rel="stylesheet" type="text/css" href="{% static 'plugins/DataTables/datatables.css' %}"/>
+    <script type="text/javascript" src="{% static 'plugins/DataTables/datatables.min.js' %}"></script>
+
+
+    <link href="/static/css/custom.css" rel="stylesheet">
+
+
+    <style>
+
+        a {
+            cursor: pointer;
+        }
+
+
+    </style>
+
+
+
+    {% block head %}
+
+
+    {% endblock %}
+
+
+</head>
+
+
+
+
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul
+            class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion"
+            id="accordionSidebar"
+    >
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <div class="sidebar-brand-icon rotate-n-15">
+            </div>
+            <div class="sidebar-brand-text mx-3">Demo</div>
+        </a>
+
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item {% if dashboard_url == request.path %}active{% endif %}">
+            <a class="nav-link" href="{{ dashboard_url }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span></a>
+        </li>
+
+        <!-- Divider -->
+
+
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'asset-list' %}" data-toggle="" data-target="#BasicSubmenu"
+            >
+                <i class="fas fa-fw fa-cog"></i>
+                <span>物理資源</span>
+            </a>
+
+        </li>
+
+
+
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'login-list' %}" data-toggle="" data-target="#AuditsSubmenu"
+            >
+                <i class="fas fa-fw fa-folder"></i>
+                <span>日誌審計</span>
+            </a>
+
+        </li>
+
+
+
+
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                <!-- Sidebar Toggle (Topbar) -->
+                <button id="sidebarToggle" class="btn btn-dark"><i class="fa fa-bars"></i></button>
+                <!-- Topbar Search -->
+
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                                {{ request.user }}
+                            </span>
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <!-- Dropdown - User Information -->
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                             aria-labelledby="userDropdown">
+
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </nav>
+            <!-- End of Topbar -->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <!-- /.container-fluid -->
+
+        </div>
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Dashboard 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+
+
+<!-- Bootstrap core JavaScript-->
+</body>
+
+<script>
+
+    function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = jQuery.trim(cookies[i]);
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    // break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    var csrftoken = getCookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+    $(document).ready(function () {
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function (e) {
+            $("body").toggleClass("sidebar-toggled");
+            $(".sidebar").toggleClass("toggled");
+            if ($(".sidebar").hasClass("toggled")) {
+                $('.sidebar .collapse').collapse('hide');
+            }
+
+        });
+    })
+
+</script>
+
+{% block base-js %}
+
+
+
+{% endblock %}
+
+
+{% block extra-js %}
+
+{% endblock %}
+
+
+</html>
