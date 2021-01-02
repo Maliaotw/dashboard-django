@@ -35,7 +35,7 @@ var myLineChart0 = new Chart(ctx, {
         labels: [],
         datasets: [
             {
-                label: "ECS",
+                label: "服務器",
                 lineTension: 0.3,
                 backgroundColor: "rgba(78, 115, 223, 0.05)",
                 borderColor: "rgba(78, 115, 223, 1)",
@@ -50,7 +50,7 @@ var myLineChart0 = new Chart(ctx, {
                 data: [],
             },
             {
-                label: "RDS",
+                label: "網路設備",
                 lineTension: 0.3,
                 backgroundColor: "rgba(78, 115, 223, 0.05)",
                 borderColor: "rgb(223,11,0)",
@@ -63,6 +63,23 @@ var myLineChart0 = new Chart(ctx, {
                 pointHitRadius: 10,
                 pointBorderWidth: 2,
                 data: [],
+
+            },
+            {
+                label: "VM",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                borderColor: "rgb(223,0,193)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgb(223,0,193)",
+                pointBorderColor: "rgb(223,0,193)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgb(223,0,193)",
+                pointHoverBorderColor: "rgb(223,0,193)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: [],
+
             },
         ],
     },

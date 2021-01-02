@@ -50,8 +50,8 @@
                 {{ filterset.form.category.label_tag }}
                 {% render_field filterset.form.category class="form-control mr-2" %}
 
-                {{ filterset.form.department.label_tag }}
-                {% render_field filterset.form.department class="form-control mr-2" %}
+                {{ filterset.form.busline.label_tag }}
+                {% render_field filterset.form.busline class="form-control mr-2" %}
 
 
 
@@ -70,7 +70,7 @@
                     <th>#</th>
                     <th>資產編號</th>
                     <th>分類</th>
-                    <th>部門</th>
+                    <th>業務線</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,13 +81,13 @@
                     <tr>
                         <td class="align-middle">{{ forloop.counter }}</td>
                         <td class="align-middle">
-                            <p>{{ obj.number }}</p>
+                            <p>{{ obj.id }}</p>
                         </td>
                         <td class="align-middle">
                             <p>{{ obj.category }}</p>
                         </td>
                         <td class="align-middle">
-                            <p>{{ obj.department }}</p>
+                            <p>{{ obj.busline }}</p>
                         </td>
 
                     </tr>

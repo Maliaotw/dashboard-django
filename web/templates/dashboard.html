@@ -102,7 +102,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                VM
+                                虛擬機
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ counts.host }}</div>
                         </div>
@@ -125,7 +125,7 @@
             <!-- Area Chart -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">近七日 發現&更新資產</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">近期新增</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-pie pt-4 pb-2">
@@ -146,7 +146,7 @@
             <!-- Bar Chart -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">機櫃使用量</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">業務分配比</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-bar">
@@ -206,14 +206,17 @@
                     myLineChart0.data.labels.push(v);
                 });
 
-                $.each(callback.create_data, function (k, v) {
+                $.each(callback.server_list, function (k, v) {
                     myLineChart0.data.datasets[0].data.push(v);
                 });
 
-                $.each(callback.latest_data, function (k, v) {
+                $.each(callback.netware_list, function (k, v) {
                     myLineChart0.data.datasets[1].data.push(v);
                 });
 
+                $.each(callback.vm_list, function (k, v) {
+                    myLineChart0.data.datasets[2].data.push(v);
+                });
                 //latest_data
                 //create_data
 

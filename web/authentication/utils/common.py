@@ -137,11 +137,14 @@ def is_uuid(seq):
         all([is_uuid(x) for x in seq])
     return False
 
-
 def get_request_ip(request):
-    print(request.META)
-    return request.META.get('REMOTE_ADDR', '')
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')
 
+    if x_forwarded_for and x_forwarded_for[0]:
+        login_ip = x_forwarded_for[0]
+    else:
+        login_ip = request.META.get('REMOTE_ADDR', '')
+    return login_ip
 
 def validate_ip(ip):
     try:

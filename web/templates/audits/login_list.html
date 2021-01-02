@@ -133,7 +133,7 @@
                         <td>{{ userlog.get_type_display }}</td>
                         <td>{{ userlog.user_agent|slice:'20' }}</td>
                         <td>
-                            {{ userlog.ip }}
+                            {{ userlog.safe_ip }}
                         </td>
                         <td>
                             {{ userlog.city }}
