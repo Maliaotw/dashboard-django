@@ -1,1 +1,1 @@
-web: gunicorn web.heroku_wsgi  --chdir=./web
+web: gunicorn web.wsgi  --chdir=./web
