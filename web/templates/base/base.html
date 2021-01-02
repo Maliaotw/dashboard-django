@@ -6,7 +6,7 @@
 
     <meta charset="utf-8">
 
-    <title>{% block title %} AliyunWeb{% endblock %}</title>
+    <title>{% block title %} Web{% endblock %}</title>
 
     <!-- Custom fonts for this template-->
     <link href="{% static 'plugins/fontawesome-free/css/all.css' %}" rel="stylesheet">
@@ -86,7 +86,7 @@
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item {% if dashboard_url == request.path %}active{% endif %}">
-            <a class="nav-link" href="{{ dashboard_url }}">
+            <a class="nav-link" href="{% url 'dashboard' %}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>

@@ -1,0 +1,92 @@
+version: "3"
+
+volumes:
+  production_traefik: {}
+
+
+
+services:
+  openresty:
+    image: openresty/openresty:alpine
+    env_file:
+      - ./openresty/.env
+    volumes:
+      - ./openresty/conf.d/nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./openresty/conf.d/site-enabled:/etc/nginx/conf.d/site-enabled
+      - ./openresty/lua:/etc/nginx/lua
+      - ./openresty/share:/usr/share
+      - ./openresty/whitelist.conf:/etc/nginx/whitelist.conf
+      - ./openresty/maintenance:/srv/www/maintenance
+      - ./logs/nginx:/var/log/nginx
+      - ./web/data/static:/opt/ops/data/static
+    depends_on:
+      - web
+    ports:
+    - 80:80
+
+  web:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    restart: always
+    env_file:
+      - ./web/.envs/.production/.django
+      - ./web/.envs/.production/.postgres
+      - ./web/.envs/.production/.api
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./web/data/static:/app/data/static
+      - ./logs/web:/app/logs
+    command: /start
+
+  celery:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    restart: always
+    env_file:
+      - ./web/.envs/.production/.django
+      - ./web/.envs/.production/.postgres
+      - ./web/.envs/.production/.api
+    depends_on:
+      - postgres
+      - redis
+      - web
+    command: /start-celeryworker
+
+  beat:
+    build:
+      context: .
+      dockerfile: ./compose/production/django/Dockerfile
+    restart: always
+    env_file:
+      - ./web/.envs/.production/.django
+      - ./web/.envs/.production/.postgres
+      - ./web/.envs/.production/.api
+    depends_on:
+      - postgres
+      - redis
+      - web
+    command: /start-celerybeat
+
+  bot:
+    build: ./bot
+    restart: always
+    env_file:
+      - ./bot/.env
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    volumes:
+      - /var/lib/postgresql/data:/var/lib/postgresql/data
+      - /data/postgresql/backups:/backups
+    env_file:
+      - web/.envs/.production/.postgres
+
+  redis:
+    image: redis:5.0
+

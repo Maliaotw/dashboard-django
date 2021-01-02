@@ -11,37 +11,57 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from .conf import load_user_config
+
+CONFIG = load_user_config()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_DIR = os.path.dirname(BASE_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+# GENERAL
+# ------------------------------------------------------------------------------
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#debug
+DEBUG = CONFIG.DEBUG
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
 # SECURITY WARNING: keep the secret key used in production secret!
 # from django.core.management.utils import get_random_secret_key
 # get_random_secret_key()
-SECRET_KEY = '$0(-b&tfehz!5bg32$y79!b+5wq@^#)n6=&s3!u&4g_*+x)5*6'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = CONFIG.SECRET_KEY
 
 ALLOWED_HOSTS = ['*']
 
 # Application definition
 
-INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'app.apps.AppConfig',
-    'authentication.apps.AuthenticationConfig',
+DJANGO_APPS = [
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    # "django.contrib.sites",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+
+]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',
     'django_filters',
     'widget_tweaks',
 ]
+
+LOCAL_APPS = [
+    'app.apps.AppConfig',
+    'authentication.apps.AuthenticationConfig',
+]
+
+# https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,12 +96,31 @@ WSGI_APPLICATION = 'web.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+DATABASES_ENGINE = CONFIG.DATABASES_ENGINE
+if DATABASES_ENGINE == 'sqlite3':
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+
+elif DATABASES_ENGINE == 'postgresql':
+
+    DATABASES = {
+        'default': {
+            'ENGINE': f'django.db.backends.{DATABASES_ENGINE}',
+            'NAME': CONFIG.POSTGRES_DB,
+            'HOST': CONFIG.POSTGRES_HOST,
+            'PORT': CONFIG.POSTGRES_PORT,
+            'USER': CONFIG.POSTGRES_USER,
+            'PASSWORD': CONFIG.POSTGRES_PASSWORD,
+        }
+    }
+
+else:
+    raise ValueError("DATABASES 不合法")
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -120,26 +159,16 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),  # add statics path
 )
-STATIC_ROOT = os.path.join(PROJECT_DIR, "data", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "data", "static")
 
 # Media files (File, ImageField) will be save these
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, "data", 'media')
 
 LOGIN_URL = "/login/"
 
-# Cache use redis
-
-# SILENCED_SYSTEM_CHECKS = ['fields.E300', 'fields.E307']
-
-# File Upload Permissions
-# FILE_UPLOAD_PERMISSIONS = 0o644
-# FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
-
-
-
 # SESSION
-SESSION_COOKIE_AGE = 60 * 30  # 設置session過期時間為30分鐘
+SESSION_COOKIE_AGE = 60 * 60  # 設置session過期時間為60分鐘
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # 當瀏覽器被關閉的時候將session失效，但是不能刪除數據庫的session數據
 SESSION_SAVE_EVERY_REQUEST = True  # 每次請求都要保存一下session
 
@@ -166,4 +195,3 @@ LOGGING = {
 
     },
 }
-

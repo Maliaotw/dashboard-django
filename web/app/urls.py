@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 urlpatterns = [
     # Asset
-    path('', login_required(AssetListView.as_view()), name="asset-list"),
+    path('asset', login_required(AssetListView.as_view()), name="asset-list"),
 
 
 

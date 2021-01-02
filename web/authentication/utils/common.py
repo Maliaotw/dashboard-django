@@ -3,7 +3,6 @@
 import re
 from collections import OrderedDict
 from itertools import chain
-import logging
 import datetime
 import uuid
 from functools import wraps
@@ -12,9 +11,9 @@ import ipaddress
 import os
 import ipdb
 from django.utils.translation import ugettext as _
-
-
 import logging
+
+logger = logging.getLogger(__name__)
 
 UUID_PATTERN = re.compile(r'[0-9a-zA-Z\-]{36}')
 ipip_db = None
@@ -29,11 +28,6 @@ def combine_seq(s1, s2, callback=None):
     if callback:
         seq = map(callback, seq)
     return seq
-
-
-def get_logger(name=None):
-    return logging.getLogger('jumpserver.%s' % name)
-
 
 def timesince(dt, since='', default="just now"):
     """
@@ -145,13 +139,7 @@ def is_uuid(seq):
 
 
 def get_request_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR', '').split(',')
-
-    if x_forwarded_for and x_forwarded_for[0]:
-        login_ip = x_forwarded_for[0]
-    else:
-        login_ip = request.META.get('REMOTE_ADDR', '')
-    return login_ip
+    return request.META.get('REMOTE_ADDR', '')
 
 
 def validate_ip(ip):
@@ -186,9 +174,6 @@ def random_string(length):
     return ''.join(s)
 
 
-logger = get_logger(__name__)
-
-
 def timeit(func):
     def wrapper(*args, **kwargs):
         logger.debug("Start call: {}".format(func.__name__))
@@ -208,7 +193,7 @@ def write_login_log(*args, **kwargs):
     default_city = _("Unknown")
     ip = kwargs.get('ip', '')
 
-    logging.debug("write_login_log {}".format(ip))
+    logger.debug("write_login_log {}".format(ip))
 
     if not (ip and validate_ip(ip)):
         ip = ip[:15]

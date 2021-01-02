@@ -24,24 +24,39 @@ def generate_data(username, request):
     }
     # print(data)
     return data
+#
+#
+# def remote_ip(request):
+#     print(request.META)
+#     ip = request.META.get('HTTP_X_FORWARDED_FOR', 0)
+#
+#     if ip == 0:
+#         return request.META['REMOTE_ADDR']
+#     else:
+#         if len(ip.split(',')) > 1:
+#             ip = ip.split(',')[0].strip()
+#         return ip
+
 
 @receiver(post_auth_success)
 def on_user_auth_success(sender, user, request, **kwargs):
-
     logging.debug('on_user_auth_success')
-    
+
     data = generate_data(user.username, request)
     data.update({'status': True})
+    # data.update({'ip': remote_ip(request)})
 
     # 沒開celery會卡在這裡
     # write_login_log_async.delay(**data)
+
     write_login_log_async(**data)
 
 
 @receiver(post_auth_failed)
 def on_user_auth_failed(sender, username, request, reason, **kwargs):
     logging.debug('on_user_auth_failed')
-    
+
     data = generate_data(username, request)
     data.update({'reason': reason, 'status': False})
+    # data.update({'ip': remote_ip(request)})
     write_login_log_async(**data)

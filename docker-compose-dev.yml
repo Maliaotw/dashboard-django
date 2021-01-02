@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    environment:
+      DEBUG: "True"
+      SECRET_KEY: "2o@t_j312unhscu(d2%3_je4*d@+d*mmlgh13)f^jsl*e24u%!"
+      DATABASES_ENGINE: "sqlite3"
+    command: /start
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./web/data/media/:/media/
+      - ./web/data/static/:/static/
+      - ./nginx/dev.conf:/etc/nginx/nginx.conf:ro
+    logging:
+      driver: none
