@@ -139,6 +139,7 @@ def is_uuid(seq):
 
 
 def get_request_ip(request):
+    print(request.META)
     return request.META.get('REMOTE_ADDR', '')
 
 
