@@ -361,7 +361,7 @@ def load_from_env(config):
         loaded = config.from_envfile(i)
         if loaded:
             return True
-    return False
+    return True
 
 def load_user_config():
     sys.path.insert(0, BASE_DIR)
