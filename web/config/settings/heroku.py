@@ -1,7 +1,7 @@
 from .base import *  # noqa
 import os
 
-os.environ.setdefault("DATABASE_URL", CONFIG.HEROKU_POSTGRESQL_GOLD_UR)
+os.environ.setdefault("DATABASE_URL", CONFIG.HEROKU_POSTGRESQL_GOLD_URL)
 
 import dj_database_url
 
