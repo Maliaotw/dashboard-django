@@ -8,6 +8,8 @@ workflows:
 
 jobs:
   deploy:
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
       - run:
