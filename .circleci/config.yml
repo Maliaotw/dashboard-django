@@ -18,6 +18,5 @@ jobs:
             cp web/requirements.txt requirements.txt
             cp web/Procfile Procfile
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-            HEROKU_API_KEY=${HEROKU_TOKEN} heroku run python web/manage.py migrate
-            HEROKU_API_KEY=${HEROKU_TOKEN} heroku run python web/manage.py createsuperuser --noinput
-            HEROKU_API_KEY=${HEROKU_TOKEN} heroku run bash web/utils/create_data.sh
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku run python web/manage.py migrate
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku run bash web/utils/create_data.sh
