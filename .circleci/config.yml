@@ -9,8 +9,7 @@ workflows:
 jobs:
   deploy:
     branches:
-      only:
-        - main
+      only: main
     machine:
       image: circleci/classic:edge
     steps:
