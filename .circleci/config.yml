@@ -5,12 +5,12 @@ workflows:
   build-deploy:
     jobs:
       - deploy
-          filters:
-            branches:
-              only: master
 
 jobs:
   deploy:
+    branches:
+      only:
+        - main
     machine:
       image: circleci/classic:edge
     steps:
