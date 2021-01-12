@@ -21,12 +21,12 @@ bootstrap-datepicker
 
 # 演示地址
 
+地址: https://mtd1.herokuapp.com/
+
+帳號: admin / 9dvYbU83 
+
 ## 首頁登入
 ![](assets/2021-01-12-10-56-14.png)
-
-地址: https://mtd1.herokuapp.com/
-帳號: admin / 9dvYbU83
-
 
 ## 登入列表
 ![](assets/2021-01-12-11-06-49.png)
