@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function sync_instance() {
-python3 ../manage.py shell << EOF
+python3 web/manage.py shell << EOF
 from app import models
 import random
 
